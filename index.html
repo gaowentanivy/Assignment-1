@@ -9,17 +9,21 @@
 			font-size: 30px;
 		}
 
-		.red {
-			color: red;
+		.pink {
+			color: pink;
 		}
 
-		.black {
-			color: black;
+		.green {
+			color: green;
 		}
 
-		.grey {
-			color: grey;
+		.orange {
+			color: orange;
 		}
+		.completed { 
+			text-decoration: line-through;opacity: 0.5;
+		}
+
 	</style>
 </head>
 
@@ -33,12 +37,13 @@
 
 	<ol id="order_list"></ol>	
 </body>
-
 <script>
 	const addBtn = document.getElementById("btn_add");
 	const toggleBtn = document.getElementById("btn_hide");
 	const textarea = document.getElementById("text");
 	const list = document.getElementById("order_list");
+
+	let hideCompleted = false; 
 
 	addBtn.addEventListener("click", () => {
 		const input = textarea.value;
@@ -56,17 +61,37 @@
 			const li = document.createElement("li");
 			li.textContent = taskContent;
 
-			// assign color based on category
-			if (category === "1") li.className = "red";
-			else if (category === "2") li.className = "black";
-			else if (category === "3") li.className = "grey";
+			if (category === "1") li.className = "pink";
+			else if (category === "2") li.className = "green";
+			else if (category === "3") li.className = "orange";
+
+			li.addEventListener("click", () => {
+				li.classList.toggle("completed");
+
+				if (hideCompleted && li.classList.contains("completed")) {
+					li.style.display = "none";
+				} else {
+					li.style.display = "list-item";
+				}
+			});
+
+			li.addEventListener("dblclick", () => {
+				li.remove();
+			});
 
 			list.appendChild(li);
 		});
 	});
 
 	toggleBtn.addEventListener("click", () => {
-		list.style.display = list.style.display === "none" ? "block" : "none";
+		hideCompleted = !hideCompleted;
+
+		const tasks = document.querySelectorAll("#order_list li");
+		tasks.forEach(li => {
+			if (li.classList.contains("completed")) {
+				li.style.display = hideCompleted ? "none" : "list-item";
+			}
+		});
 	});
 </script>
 </html>
