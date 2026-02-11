@@ -29,7 +29,39 @@
 </body>
 
 	<script>
-		// write your Javascript here
+		const addBtn = document.getElementById("btn_add");
+		const toggleBtn = document.getElementById("btn_hide");
+		const textarea = document.getElementById("text");
+		const list = document.getElementById("order_list");
+	
+		addBtn.addEventListener("click", () => {
+			const input = textarea.value;
+			const items = input.split(";");
+	
+			items.forEach(item => {
+				if (item.trim() === "") return;
+	
+				const parts = item.split(",");
+				if (parts.length !== 2) return;
+	
+				const taskContent = parts[0].trim();
+				const category = parts[1].trim();
+	
+				const li = document.createElement("li");
+				li.textContent = taskContent;
+	
+				// assign color based on category
+				if (category === "1") li.className = "red";
+				else if (category === "2") li.className = "black";
+				else if (category === "3") li.className = "grey";
+	
+				list.appendChild(li);
+			});
+		});
+	
+		toggleBtn.addEventListener("click", () => {
+			list.style.display = list.style.display === "none" ? "block" : "none";
+		});
 
 	</script>
 </html>
